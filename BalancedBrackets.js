@@ -1,3 +1,11 @@
+/**
+ * Question provided from HackerRank
+ * Balanced Brackets [MEDIUM]
+ * https://www.hackerrank.com/challenges/balanced-brackets/problem
+ *
+ * Determine if the input string contains valid brackets.
+ */
+
 "use strict";
 
 const fs = require("fs");
