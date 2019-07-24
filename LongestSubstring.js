@@ -2,8 +2,7 @@
  * Question provided from LeetCode
  * Longest Substring without Repeating Character [MEDIUM]
  * https://leetcode.com/problems/longest-substring-without-repeating-characters/
- * A naive implementation of longest substring function
- * Can be greatly improved using a hashmap and a more clever appraoch :O
+ * A O(n) implementation using sliding window algorithm
  */
 
 /**
@@ -12,15 +11,20 @@
  */
 const lengthOfLongestSubstring = s => {
   let max = 0;
-  for (let i = 0; i < s.length; i++) {
-    let tempArr = [];
-    for (let j = i; j < s.length; j++) {
-      if (tempArr.includes(s[j])) {
-        break;
-      }
-      tempArr.push(s[j]);
+  let i = 0;
+  let j = 0;
+  let hashMap = new Map();
+
+  while (s[i] && s[j]) {
+    if (hashMap.has(s[j])) {
+      i = Math.max(hashMap.get(s[j]) + 1, i);
+      max = Math.max(max, j - i + 1);
+      hashMap.set(s[j], j);
+    } else {
+      hashMap.set(s[j], j);
+      max = Math.max(max, j - i + 1);
     }
-    max = Math.max(max, tempArr.length);
+    j++;
   }
   return max;
 };
