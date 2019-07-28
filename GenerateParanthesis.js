@@ -4,52 +4,46 @@
  *
  * Determine all possible sets of valid paranthesis with length 2 * n;
  */
-
 /**
  * @param {number} n
  * @return {string[]}
  */
-var generateParenthesis = function(n) {
-  let list = [];
-  searchParan("", n, list);
-  return list;
-};
+let arr = [];
 
-const searchParan = (str, n, list) => {
-  if (isPossiblyValid(str)) {
-    if (str.length === 2 * n) {
-      if (isValid(str)) {
-        list.push(str);
-      }
-    } else {
-      searchParan(str + "(", n, list);
-      searchParan(str + ")", n, list);
-    }
-  }
-};
-
-const isValid = str => {
+const isValid = (str, max) => {
   let stack = [];
+  let leftCount = 0;
   for (let i = 0; i < str.length; i++) {
     if (str[i] === "(") {
       stack.push("(");
-    } else {
-      if (stack.length === 0) {
+      leftCount++;
+      if (leftCount > max / 2) {
         return false;
-      } else {
-        stack.pop();
+      }
+    }
+    if (str[i] === ")") {
+      if (!stack.pop()) {
+        return false;
       }
     }
   }
-  return stack.length === 0;
+  return true;
 };
 
-const isPossiblyValid = str => {
-  let rightCount = 0;
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] === ")") {
-      rightCount++;
-    }
+const DFS = (str, max) => {
+  if (str.length >= max) {
+    arr.push(str);
+    return;
   }
-  return rightCount <= Math.floor(str.length / 2);
+  if (isValid(str + "(", max)) {
+    DFS(str + "(", max);
+  }
+  if (isValid(str + ")", max)) {
+    DFS(str + ")", max);
+  }
+};
+
+const generateParenthesis = n => {
+  DFS("", 2 * n);
+  return arr;
 };
