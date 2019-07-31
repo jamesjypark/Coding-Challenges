@@ -33,26 +33,23 @@ function readLine() {
 }
 
 // Complete the arrayManipulation function below.
-function arrayManipulation(n, queries) {
-  let arr = [];
-  let currentVal = 0;
-  let max = 0;
-  for (let i = 0; i < n; i++) {
-    arr.push(0);
-  }
-  for (let j = 0; j < queries.length; j++) {
-    arr[queries[j][0] - 1] += queries[j][2];
-    if (queries[j][1] < arr.length) {
-      arr[queries[j][1]] -= queries[j][2];
+const arrayManipulation = (n, queries) => {
+  let diffArr = new Array(n).fill(0);
+  for (let i = 0; i < queries.length; i++) {
+    let currentQueries = queries[i];
+    diffArr[currentQueries[0] - 1] += currentQueries[2];
+    if (currentQueries[1] < n) {
+      diffArr[currentQueries[1]] -= currentQueries[2];
     }
   }
-  for (let i = 0; i < arr.length; i++) {
-    currentVal += arr[i];
-    max = Math.max(max, currentVal);
-  }
-
+  let max = 0;
+  let currentValue = 0;
+  diffArr.forEach(item => {
+    currentValue += item;
+    max = Math.max(max, currentValue);
+  });
   return max;
-}
+};
 
 function main() {
   const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
