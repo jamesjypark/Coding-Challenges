@@ -8,7 +8,7 @@ def quickSort(l, h, arr):
     if (l >= h):
         return
     if (h == l + 1):
-        if (arr[h] < arr[l]):
+        if (h < len(arr) and arr[h] < arr[l]):
             swap(l, h, arr)
         return
     pivot = l
@@ -23,4 +23,6 @@ def quickSort(l, h, arr):
             swap(i, j, arr)
     swap(pivot, j, arr)
     quickSort(l, j, arr)
+    print('j + 1 is ' + str(j + 1))
+    print('h is ' + str(h))
     quickSort(j + 1, h, arr)
